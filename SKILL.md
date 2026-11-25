@@ -1,6 +1,6 @@
 ---
 name: aso-screenshot-studio
-description: Design App Store and Google Play screenshot sets for any mobile app. Ask for the app name, website and store links, research the brand and listing, write the screenshot copy, render 5 design directions to choose from, then build the full iOS + Android set (6–7 portrait screenshots, Play landscape lead, feature graphic) as upload-ready PNGs plus a review PDF. Use when someone asks for store screenshots, ASO creatives, app store graphics, custom product pages / custom store listing visuals, or a Play feature graphic.
+description: Design App Store and Google Play screenshot sets for any mobile app, in the app's own brand. Ask for the app name, website, store links and any design language (Figma link, brand guidelines, logo, brand shapes, photos), research the brand and listing, write the screenshot copy, render 5 design directions to choose from, then build the full iOS + Android set (6–7 portrait screenshots, Play landscape lead, feature graphic) as upload-ready PNGs plus a review PDF. Use when someone asks for store screenshots, ASO creatives, app store graphics, custom product pages / custom store listing visuals, or a Play feature graphic.
 ---
 
 # ASO Screenshot Studio
@@ -20,18 +20,28 @@ Requirements: Google Chrome or Chromium, Python 3.8+, Pillow (`pip install pillo
 ## Workflow
 
 ### 1. Ask for the inputs (one message)
-Ask the user for:
-1. **App name** (and a short project name for the output folder if different).
-2. **Website URL.**
-3. **Store links:** App Store and/or Google Play URL. One is enough.
-4. **Real app screens** (strongly recommended): 5–7 raw phone screenshots of the main flows. Without them the set can only use the store's current screenshots.
-5. Optional: brand guidelines / logo files / photos of real people, the market (country), and any copy they must use.
+This skill is brand-neutral: it must never reuse another client's shapes, colours or layouts. Everything visual comes from the user's own brand. Ask, in one message:
+1. **App name** (and a project name for the output folder).
+2. **Website URL** and **store links** (App Store and/or Google Play; one is enough).
+3. **Design language — do you have any of these?** (share whatever exists)
+   - a **Figma link** (brand file, design system or app designs)
+   - **brand guidelines** (PDF / link) with colours, fonts and logo rules
+   - **logo files** (a white version for dark backgrounds and a colour version)
+   - **brand shapes / patterns / illustrations** they use in ads (e.g. a signature curve, icon set, texture)
+   - **photos** of real people, vehicles or products they own
+   - reference apps or screenshots whose style they like
+4. **Real app screens:** 5–7 raw phone screenshots of the main flows (much better than the store's existing marketing images).
+5. Market/country and any copy that must be used.
 
-If something is missing, continue with what you have and say what the gap costs.
+Use what they give:
+- **Figma link:** if the Figma MCP is connected, read it (`get_metadata`, `get_screenshot`, `get_variable_defs` for colours/type, export logos and screens with `get_screenshot` or download_assets). If it isn't connected, ask them to sign in to Figma via `/mcp`, or to export the logo and screens as PNG.
+- **Guidelines PDF:** read the colour codes, fonts, logo rules and any signature shape; note do's and don'ts and follow them.
+- **Brand shape:** save it as a transparent PNG/SVG and set `brand.motif = "custom"` with `brand.motif_image`. Otherwise pick a neutral motif (`glow`, `blob`, `ring`, `dots`, `none`) that suits the brand — see `references/config.md`.
+- **Nothing supplied:** derive colours, fonts and logo from the website (step 2) and use `motif: "glow"`. Say so, and that the result will be more generic than with their real brand assets.
 
 ### 2. Research
 - Run `python3 scripts/fetch_store.py --play <url> --appstore <url> --website <url> --country <cc>` and read the result: listing title, description, features, rating, genre, brand colours, Google Fonts, logo candidates.
-- Pick brand tokens: `primary` (dark brand colour for backgrounds), `accent` (the brand's bright colour), `accent2` (a warm secondary), fonts (use the site's Google Font if it has one, else Poppins/Montserrat). Check contrast: white text must read on `primary`.
+- Unless the user supplied guidelines/Figma, pick brand tokens: `primary` (dark brand colour for backgrounds), `accent` (the brand's bright colour), `accent2` (a warm secondary), fonts (use the site's Google Font if it has one, else Poppins/Montserrat). Check contrast: white text must read on `primary`.
 - **Downloading store screenshots, icons or logos needs the user's OK** (they belong to the app owner). When they agree, re-run with `--download <project>/assets/store`. Store screenshots are usually already-designed marketing frames; prefer raw screens from the user. If only marketing frames exist, tell the user the set will reuse them and look weaker.
 - Logo: prefer the user's file. Need a white version for dark backgrounds (`logo_light`) and a dark one (`logo_dark`). Without a logo, the engine sets the app name in the headline font.
 

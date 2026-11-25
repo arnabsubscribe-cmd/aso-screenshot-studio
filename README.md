@@ -2,7 +2,7 @@
 
 A Claude Code skill that designs **App Store and Google Play screenshots** for any app.
 
-Give it an app name, the website and a store link. It reads the listing and the brand, writes the screenshot copy, shows you **5 design directions**, and once you pick one for iOS and one for Android, renders the full set as upload-ready PNGs plus a review PDF.
+Give it an app name, the website and a store link, plus any design language you have (Figma link, brand guidelines, logo, brand shapes, photos). It reads the listing and the brand, writes the screenshot copy, shows you **5 design directions**, and once you pick one for iOS and one for Android, renders the full set as upload-ready PNGs plus a review PDF.
 
 ![The five directions](docs/options_sheet.png)
 
@@ -44,6 +44,8 @@ python3 scripts/render.py build examples/demo/config.json /tmp/aso-demo --ios fl
 - `scripts/fetch_store.py` reads the Google Play page and the App Store (iTunes Lookup API) plus the website's colours, fonts and logo candidates.
 - Claude writes a `config.json` (brand tokens, screens, 6–7 frames of copy). Schema: [`references/config.md`](references/config.md).
 - `scripts/render.py` loads `engine/engine.js` in headless Chrome and screenshots each frame at exact store sizes.
+
+Nothing is hard-coded to one brand: colours, fonts, logo and the background motif (`glow`, `blob`, `ring`, `dots`, `arc`, `none`, or your own brand shape) all come from your design language.
 
 Tips: give it **raw app screens** (not the existing marketing screenshots) for the best result, and only put figures on cards that the app owner has confirmed. See [`references/copy-and-specs.md`](references/copy-and-specs.md).
 

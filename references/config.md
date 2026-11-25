@@ -15,7 +15,10 @@ Paths are relative to the folder that holds `config.json`. Colours are hex.
     "font_head": "Poppins",    // any Google Font
     "font_body": "Montserrat",
     "logo_light": "assets/logo_white.png",   // for dark backgrounds
-    "logo_dark": "assets/logo_color.png"     // for light backgrounds
+    "logo_dark": "assets/logo_color.png",    // for light backgrounds
+    "motif": "glow",           // background decoration from the brand's design language:
+                               // glow (default) | blob | ring | dots | arc | none | custom
+    "motif_image": "assets/brand_shape.png"  // with "custom": the brand's own shape/pattern (transparent PNG/SVG)
   },
   "options": { "floating_theme": "dark" },     // or "light"
   "screens": { "home": "assets/screens/home.png", "book": "…" },   // raw app screenshots (any phone size)
@@ -51,3 +54,12 @@ To find a box: open the screenshot, note the pixel rectangle of one element, div
 { "type": "text", "label": "Live", "title": "Rider arriving", "sub": "18 min away", "pos": "left" }
 ```
 Only use figures the client has confirmed.
+
+## Choosing the motif
+Decoration must come from the client's own design language. If they have a signature shape (a curve, symbol, pattern, illustration), export it and use `custom`. Otherwise:
+- `glow` — soft light in the accent colour; neutral, works for any brand (default)
+- `blob` — organic shape; friendly consumer brands
+- `ring` — clean circle outline; fintech, utilities
+- `dots` — dot pattern; technical / B2B
+- `arc` — half-ring band; only if the brand actually uses an arc
+- `none` — just the gradient
