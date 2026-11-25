@@ -1,0 +1,6 @@
+out/
+**/out/
+__pycache__/
+.DS_Store
+examples/demo/screens/
+examples/demo/logo_*.png

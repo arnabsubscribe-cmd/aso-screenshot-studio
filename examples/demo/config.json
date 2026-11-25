@@ -1,0 +1,37 @@
+{
+  "app": { "name": "Parcelly", "website": "https://example.com", "play": "", "appstore": "" },
+  "brand": {
+    "primary": "#163758", "accent": "#e8475f", "accent2": "#ffc46b",
+    "bg_dark": "#0b2340", "bg_light": "#eef2f8", "text_dark": "#14294a",
+    "font_head": "Poppins", "font_body": "Montserrat",
+    "logo_light": "logo_light.png", "logo_dark": "logo_dark.png"
+  },
+  "options": { "floating_theme": "dark" },
+  "screens": {
+    "home": "screens/home.png", "book": "screens/book.png", "track": "screens/track.png",
+    "wallet": "screens/wallet.png", "abroad": "screens/abroad.png", "move": "screens/move.png"
+  },
+  "photos": [],
+  "landscape": {
+    "headline": "Parcels, moves\n& shipping.", "accent": "All in one app.",
+    "sub": "Same-day delivery, home moves and international courier", "screen": "home",
+    "cards": [{ "type": "text", "label": "Live", "title": "Rider arriving", "sub": "18 min away", "pos": "left" }]
+  },
+  "frames": [
+    { "headline": "Parcels, moves\n& shipping.", "accent": "All in one.", "screen": "home",
+      "card": { "type": "crop", "box": [0.051, 0.118, 0.897, 0.052] },
+      "points": [["Same-day delivery", "Across the city"], ["Clear pricing", "See the price first"]] },
+    { "headline": "Send parcels\nacross town", "accent": "today.", "screen": "book", "tag": "Same day",
+      "card": { "type": "crop", "box": [0.051, 0.379, 0.897, 0.079] },
+      "points": [["Express or same day", "You pick the speed"], ["Door to door", "We pick it up"]] },
+    { "headline": "Moving home?", "accent": "Sorted.", "screen": "move", "tag": "Movers",
+      "card": { "type": "crop", "box": [0.051, 0.261, 0.897, 0.075] },
+      "points": [["Packing included", "In one booking"], ["Clear quote", "No surprises"]] },
+    { "headline": "Ship documents\n& parcels", "accent": "abroad.", "screen": "abroad",
+      "card": { "type": "crop", "box": [0.051, 0.174, 0.897, 0.091] } },
+    { "headline": "Pay in a tap", "accent": "from your wallet.", "screen": "wallet",
+      "card": { "type": "crop", "box": [0.051, 0.387, 0.897, 0.067] } },
+    { "headline": "Track every\ndelivery", "accent": "in real time.", "screen": "track",
+      "card": { "type": "crop", "box": [0.051, 0.616, 0.897, 0.071] } }
+  ]
+}
