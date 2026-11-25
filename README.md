@@ -17,6 +17,9 @@ Give it an app name, the website and a store link, plus any design language you 
 
 Five directions: **A Floating Cards** (3D phone, real UI popping out as glowing cards) · **B Big Type** · **C Brand Bold** · **D Photo-led** · **E Panorama** (one scene flowing across the landscape lead and every screenshot).
 
+## Delivery formats
+Choose any of: a **PDF** review deck, a **ZIP** of every upload-ready PNG (sorted into `ios/` and `android/`), or a **Figma file** with one frame per screen (needs the Figma MCP connector).
+
 ## Install
 Requirements: [Claude Code](https://claude.com/claude-code), Google Chrome or Chromium, Python 3.8+, Pillow.
 

@@ -13,6 +13,7 @@ Files in this skill:
 - `engine/` — the layout engine (`engine.js`), shared by both commands.
 - `references/config.md` — the `config.json` schema. Read it before writing a config.
 - `references/copy-and-specs.md` — headline rules, store sizes, review checklist.
+- `scripts/upload_to_figma.py` — fills Figma frames with the rendered PNGs after `upload_assets`.
 - `examples/demo/` — a complete working config for a fictional app (run `python3 examples/demo/make_demo_assets.py` first).
 
 Requirements: Google Chrome or Chromium, Python 3.8+, Pillow (`pip install pillow`). Fonts load from Google Fonts, so rendering needs internet.
@@ -32,6 +33,7 @@ This skill is brand-neutral: it must never reuse another client's shapes, colour
    - reference apps or screenshots whose style they like
 4. **Real app screens:** 5–7 raw phone screenshots of the main flows (much better than the store's existing marketing images).
 5. Market/country and any copy that must be used.
+6. **How they want the final files:** a **PDF** (review deck of every screen), a **ZIP** of all upload-ready PNGs, or a **Figma file** (one frame per screen, ready to edit/comment). They can pick more than one. Confirm again with AskUserQuestion at step 4 if they didn't say.
 
 Use what they give:
 - **Figma link:** if the Figma MCP is connected, read it (`get_metadata`, `get_screenshot`, `get_variable_defs` for colours/type, export logos and screens with `get_screenshot` or download_assets). If it isn't connected, ask them to sign in to Figma via `/mcp`, or to export the logo and screens as PNG.
@@ -72,7 +74,18 @@ Run `python3 scripts/render.py build <project>/config.json <project>/out --ios <
 
 Look at the review images before reporting. Fix overlaps or bad crops by editing `config.json` (shorter headline, adjust a crop `box`, change `screen`) and re-running. Then tell the user what was made, which frames use real screens vs placeholders, and what still needs their confirmation (claims, photos, translations).
 
-### 6. Optional follow-ups
+### 6. Deliver in the format they chose
+The build always writes `out/review.pdf`, `out/<App>_store_screenshots.zip` (every PNG in `ios/` and `android/` folders plus the PDF) and `out/figma_manifest.json`.
+- **PDF:** hand over `out/review.pdf`.
+- **ZIP:** hand over `out/<App>_store_screenshots.zip`.
+- **Figma file** (needs the Figma MCP signed in; if it isn't, ask them to run `/mcp` and sign in, or fall back to ZIP):
+  1. Load the Figma skills it requires (`figma-use`, `figma-create-new-file`) and call `whoami` for the plan key; ask which team if there are several.
+  2. `create_new_file` named "<App> – Store screenshots".
+  3. With `use_figma`, make one Section per group in `figma_manifest.json` ("iOS 6.9in", "iOS 6.5in", "Google Play") and inside each an empty frame per row, sized `width`×`height`, named `name`, laid out left to right in store order. Return the frame IDs in manifest order.
+  4. Call `upload_assets` with `nodeIds` = those frame IDs (max 60 per call), save the returned submit URLs as a JSON list, then run `python3 scripts/upload_to_figma.py urls.json out/figma_manifest.json --group "<group>"` to fill each frame with its PNG.
+  5. Screenshot one section to confirm, and share the file link. Mention that frames are flat images; editable layers need a rebuild (offer it for the chosen direction if they want designers to edit copy).
+
+### 7. Optional follow-ups
 - **Custom product pages / custom store listings:** copy the config, change frames for the audience, render again.
-- **Figma:** if the Figma MCP is connected, upload the PNGs or rebuild frames with `use_figma` so a designer can edit them.
+- **Editable Figma:** rebuild the chosen direction with native text, cards and 3D-tilted phones using `use_figma`, so designers can edit copy and swap screens.
 - **Localisation:** duplicate the config with translated strings (get translations from the client; don't machine-translate for production).

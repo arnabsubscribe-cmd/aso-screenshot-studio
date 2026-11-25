@@ -164,7 +164,24 @@ def build(cfg_path, out, ios_dir, android_dir):
     html = out / 'review.html'
     html.write_text(f"<!doctype html><html><head><meta charset='utf-8'><style>{PAGE_CSS}</style></head><body>{''.join(pages)}</body></html>")
     pdf(html, out / 'review.pdf')
+    package(out, slug)
     print(f'Built {len(jobs)} creatives in {time.time() - t:.0f}s ->', out)
+
+
+def package(out, slug):
+    """ZIP of every upload-ready file + a manifest the Figma step uses (frame name, size, path, in store order)."""
+    import zipfile
+    from PIL import Image
+    out = Path(out); files = sorted((out / 'ios').rglob('*.png')) + sorted((out / 'android').rglob('*.png'))
+    with zipfile.ZipFile(out / f'{slug}_store_screenshots.zip', 'w', zipfile.ZIP_DEFLATED) as z:
+        for f in files: z.write(f, f.relative_to(out))
+        if (out / 'review.pdf').exists(): z.write(out / 'review.pdf', 'review.pdf')
+    man = []
+    for f in files:
+        w, h = Image.open(f).size
+        group = 'iOS ' + f.parent.name if 'ios' in f.parts else 'Google Play'
+        man.append({'group': group, 'name': f.stem, 'width': w, 'height': h, 'path': str(f)})
+    (out / 'figma_manifest.json').write_text(json.dumps(man, indent=1))
 
 
 if __name__ == '__main__':
